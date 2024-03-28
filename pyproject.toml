@@ -3,16 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "oslex"
-version = "0.1.4"
+name = "oslex2"
+version = "0.1.5"
 authors = [
-	{ name="Tamás PEREGI", email="petamas@gmail.com" },
+	{ name="Jessie Wilson", email="jessielw4049@gmail.com" },
 ]
-description = "OS-independent wrapper for shlex and mslex"
+description = "OS-independent wrapper for shlex and mslex, meant to be temporary until original repo updates PR"
 readme = "README.md"
-# mslex is supposed to support >=3.5, but it has an accidental f-string, making it unusable on 3.5
-# see https://github.com/smoofra/mslex/issues/1
-requires-python = ">=3.6"
+requires-python = ">=3.5"
 dependencies = [
   "mslex",
 ]
