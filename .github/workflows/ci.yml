@@ -2,9 +2,16 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: ["**"]
+    paths:
+      - "oslex2/**"
+      - "tests/**"
   pull_request:
-    branches: [ master ]
+    branches: ["**"]
+    paths:
+      - "oslex2/**"
+      - "tests/**"
+  workflow_dispatch:
 
 jobs:
   test:
@@ -14,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - name: Install uv
         run: pip install uv
       - name: Create virtual environment
@@ -32,7 +39,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - name: Install uv
         run: pip install uv
       - name: Create virtual environment
@@ -46,4 +53,3 @@ jobs:
         with:
           name: dist
           path: dist/
-
