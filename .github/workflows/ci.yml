@@ -17,10 +17,12 @@ jobs:
           python-version: '3.11'
       - name: Install uv
         run: pip install uv
+      - name: Create virtual environment
+        run: uv venv .venv
       - name: Install dependencies
-        run: uv pip install -r requirements.txt || uv pip install pytest
+        run: . .venv/bin/activate && uv pip install -r requirements.txt || uv pip install pytest
       - name: Run tests
-        run: uv run pytest
+        run: . .venv/bin/activate && uv run pytest
 
   build:
     needs: test
@@ -31,10 +33,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install uv
+        run: pip install uv
+      - name: Create virtual environment
+        run: uv venv .venv
       - name: Install build tools
-        run: pip install build
+        run: . .venv/bin/activate && uv pip install build
       - name: Build package
-        run: python -m build
+        run: . .venv/bin/activate && python -m build
       - name: Upload dist
         uses: actions/upload-artifact@v4
         with:

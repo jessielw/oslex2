@@ -26,14 +26,18 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build twine
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Create virtual environment
+        run: uv venv .venv
+
+      - name: Install build tools
+        run: . .venv/bin/activate && uv pip install build twine
 
       - name: Build the package
-        run: |
-          python -m build
+        run: . .venv/bin/activate && python -m build
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
