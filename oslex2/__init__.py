@@ -1,43 +1,11 @@
-import sys
+import platform
 from typing import List
 
-
-def is_posix() -> bool:
-    """
-    Returns whether the system running Python is POSIX compatible.
-    This is the condition for oslex.underlying being shlex.
-    This is also the condition for os.path being posixpath.
-    """
-    return "posix" in sys.builtin_module_names
-
-
-def is_windows() -> bool:
-    """
-    Returns whether the system running Python is Windows based.
-    This is the condition for oslex.underlying being mslex.
-    This is also the condition for os.path being ntpath.
-    """
-
-    if is_posix():
-        # This early return is likely redundant, but we want to be 100% equivalent to the if-elseif structure found in os.py
-        # See https://github.com/python/cpython/blob/3.7/Lib/os.py
-        return False
-
-    return "nt" in sys.builtin_module_names
-
-
-# Import OS-specific module
-
-if is_posix():
-    import shlex as underlying
-elif is_windows():
-    # mslex has no type annotations -> we have to ignore the "import" error
-    # also, mypy does not understand conditional importing, so it thinks we are redefining the name "underlying" -> we have to ignore the "no-redef" error
-    import mslex as underlying  # type: ignore[import, no-redef]
+# import OS-specific module
+if platform.system() == "Windows":
+    import mslex as underlying
 else:
-    raise ImportError("no os specific module found")
-
-# Define functions
+    import shlex as underlying
 
 
 def quote(s: str, **kwargs) -> str:
